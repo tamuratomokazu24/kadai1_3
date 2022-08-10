@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "../kadai1_2/DoublyLinkedList.h"
-#include "../kadai1_2/ScoreData.h"
+#include "../kadai1_3/DoublyLinkedList.h"
+#include "../kadai1_3/ScoreData.h"
 #include <string>
 
 /**
@@ -15,7 +15,7 @@ using TestDoublyLinkedList = DoublyLinkedList<ScoreData>;
 
 void createListHavingElements(TestDoublyLinkedList& list, int numElement) {
 
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 	for (int i = 0; i < numElement; i++) {
 
 		//テスト用のデータをリストへ挿入する
@@ -48,7 +48,7 @@ TEST(GetDataNumTest, WhenListIsEmpty) {
 TEST(GetDataNumTest, WhenInsertLastIsSucceeded) {
 	TestDoublyLinkedList list;
 	ScoreData scoreData("1", "test");
-	ASSERT_TRUE(list.insert(list.getLastIterator(), scoreData));
+	ASSERT_TRUE(list.insert(list.end(), scoreData));
 	EXPECT_EQ(1, list.size());
 }
 
@@ -80,7 +80,7 @@ TEST(GetDataNumTest, WhenInsertIsSucceeded) {
 	int sizeBeforeInsert = list.size();
 
 	ScoreData scoreData("1", "test1");
-	ASSERT_TRUE(list.insert(list.getLastIterator(), scoreData));	//末尾に新しいデータを挿入
+	ASSERT_TRUE(list.insert(list.end(), scoreData));	//末尾に新しいデータを挿入
 	EXPECT_EQ(sizeBeforeInsert + 1, list.size());
 }
 
@@ -113,7 +113,7 @@ TEST(GetDataNumTest, WhenRemoveIsSucceeded) {
 	createListHavingElements(list, 3);
 	int sizeBeforeInsert = list.size();
 
-	ASSERT_TRUE(list.remove(list.getFirstIterator()));
+	ASSERT_TRUE(list.remove(list.begin()));
 	EXPECT_EQ(sizeBeforeInsert - 1, list.size());
 }
 
@@ -142,7 +142,7 @@ TEST(GetDataNumTest, WhenRemoveIsFailed) {
 */
 TEST(GetDataNumTest, WhenRemoveFromEmptyList) {
 	TestDoublyLinkedList list;
-	ASSERT_FALSE(list.remove(list.getFirstIterator()));
+	ASSERT_FALSE(list.remove(list.begin()));
 	EXPECT_EQ(0, list.size());
 }
 
@@ -161,11 +161,11 @@ TEST(InsertDataTest, WhenInsertToBackOfFirstIterator) {
 
 	ScoreData scoreData("1", "test");
 
-	ASSERT_TRUE(list.insert(list.getFirstIterator(), scoreData));
+	ASSERT_TRUE(list.insert(list.begin(), scoreData));
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//先頭要素を指すイテレータ
 	++itFirstElement;	//末尾ダミーへ移動
-	bool isEqual = (itFirstElement == list.getLastIterator());
+	bool isEqual = (itFirstElement == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -180,11 +180,11 @@ TEST(InsertDataTest, WhenInsertToFrontOfLastIterator) {
 	TestDoublyLinkedList list;
 
 	ScoreData scoreData("1", "test");
-	ASSERT_TRUE(list.insert(list.getLastIterator(), scoreData));
+	ASSERT_TRUE(list.insert(list.end(), scoreData));
 
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirst = list.begin();	//先頭要素を指すイテレータ
 	++itFirst;	//末尾ダミーへ移動
-	bool isEqual = (itFirst == list.getLastIterator());
+	bool isEqual = (itFirst == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -200,12 +200,12 @@ TEST(InsertDataTest, WhenInsertToFrontOfElements) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//データ挿入前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//データ挿入前の先頭要素を指すイテレータ
 	ScoreData newScoreData("100", "newData");
-	ASSERT_TRUE(list.insert(list.getFirstIterator(), newScoreData));
+	ASSERT_TRUE(list.insert(list.begin(), newScoreData));
 	--itFirstElement;	//前方へ移動
 
-	bool isEqual = (list.getFirstIterator() == itFirstElement);
+	bool isEqual = (list.begin() == itFirstElement);
 	EXPECT_TRUE(isEqual);
 }
 
@@ -221,15 +221,15 @@ TEST(InsertDataTest, WhenInsertToBackOfElements) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLastElement = list.getLastIterator();	//データ挿入前の末尾要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itLastElement = list.end();	//データ挿入前の末尾要素を指すイテレータ
 	--itLastElement;	//末尾要素へ移動
 
 	ScoreData newScoreData("100", "newData");
-	ASSERT_TRUE(list.insert(list.getLastIterator(), newScoreData));
+	ASSERT_TRUE(list.insert(list.end(), newScoreData));
 	
 	++itLastElement;	//挿入後の末尾要素へ移動
 	++itLastElement;	//末尾ダミーへ移動
-	bool isEqual = (itLastElement == list.getLastIterator());
+	bool isEqual = (itLastElement == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -245,13 +245,13 @@ TEST(InsertDataTest, WhenInsertToFirstElementWithIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//挿入前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//挿入前の先頭要素を指すイテレータ
 	
 	ScoreData newScoreData("100", "newData");
-	ASSERT_TRUE(list.insert(list.getFirstIterator(), newScoreData));	//先頭要素の前方へ挿入
+	ASSERT_TRUE(list.insert(list.begin(), newScoreData));	//先頭要素の前方へ挿入
 	--itFirstElement;	//前方へ移動
 
-	bool isEqual = (list.getFirstIterator() == itFirstElement);
+	bool isEqual = (list.begin() == itFirstElement);
 	EXPECT_TRUE(isEqual);
 }
 
@@ -267,9 +267,9 @@ TEST(InsertDataTest, WhenInsertToCenterElementWithIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//先頭要素を指すイテレータ
 
-	TestDoublyLinkedList::Iterator itCenterElement = list.getFirstIterator();	//挿入前の中央の要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itCenterElement = list.begin();	//挿入前の中央の要素を指すイテレータ
 	++itCenterElement;	//中央の要素へ移動
 
 	ScoreData newScoreData("100", "newData");
@@ -293,15 +293,15 @@ TEST(InsertDataTest, WhenInsertToLastElementWithIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLastElement = list.getLastIterator();	//挿入前の末尾要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itLastElement = list.end();	//挿入前の末尾要素を指すイテレータ
 	--itLastElement;	//末尾要素へ移動
 
 	ScoreData newScoreData("100", "newData");
-	ASSERT_TRUE(list.insert(list.getLastIterator(), newScoreData));
+	ASSERT_TRUE(list.insert(list.end(), newScoreData));
 
 	++itLastElement;	//挿入したデータへ移動
 	++itLastElement;	//末尾ダミーへ移動
-	bool isEqual = (itLastElement == list.getLastIterator());
+	bool isEqual = (itLastElement == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -317,13 +317,13 @@ TEST(InsertDataTest, WhenInsertToFirstElementWithConstIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//挿入前の先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//挿入前の先頭要素を指すコンストイテレータ
 
 	ScoreData newScoreData("100", "newData");
-	ASSERT_TRUE(list.insert(list.getFirstConstIterator(), newScoreData));	//先頭要素の前方へ挿入
+	ASSERT_TRUE(list.insert(list.cbegin(), newScoreData));	//先頭要素の前方へ挿入
 	--cItFirstElement;	//前方へ移動
 
-	bool isEqual = (list.getFirstConstIterator() == cItFirstElement);
+	bool isEqual = (list.cbegin() == cItFirstElement);
 	EXPECT_TRUE(isEqual);
 }
 
@@ -339,9 +339,9 @@ TEST(InsertDataTest, WhenInsertToCenterElementWithConstIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//先頭要素を指すコンストイテレータ
 
-	TestDoublyLinkedList::ConstIterator cItCenterElement = list.getFirstConstIterator();	//挿入前の中央の要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItCenterElement = list.cbegin();	//挿入前の中央の要素を指すコンストイテレータ
 	++cItCenterElement;	//中央の要素へ移動
 
 	ScoreData newScoreData("100", "newData");
@@ -365,15 +365,15 @@ TEST(InsertDataTest, WhenInsertToLastElementWithConstIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLastElement = list.getLastConstIterator();	//挿入前の末尾要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLastElement = list.cend();	//挿入前の末尾要素を指すコンストイテレータ
 	--cItLastElement;	//末尾要素へ移動
 
 	ScoreData newScoreData("100", "newData");
-	ASSERT_TRUE(list.insert(list.getLastConstIterator(), newScoreData));
+	ASSERT_TRUE(list.insert(list.cend(), newScoreData));
 
 	++cItLastElement;	//挿入したデータへ移動
 	++cItLastElement;	//末尾ダミーへ移動
-	bool isEqual = (cItLastElement == list.getLastConstIterator());
+	bool isEqual = (cItLastElement == list.cend());
 	EXPECT_TRUE(isEqual);
 }
 /**
@@ -391,7 +391,7 @@ TEST(InsertDataTest, WhenInsertWithNotAvailableIterator) {
 	EXPECT_FALSE(list.insert(it, scoreData));	//リストへの参照がないイテレータを渡した場合
 
 	TestDoublyLinkedList listOther;
-	TestDoublyLinkedList::Iterator itOther = listOther.getFirstIterator();
+	TestDoublyLinkedList::Iterator itOther = listOther.begin();
 	EXPECT_FALSE(list.insert(itOther, scoreData));	//別のリストのイテレータを渡した場合
 }
 
@@ -407,7 +407,7 @@ TEST(InsertDataTest, WhenInsertWithNotAvailableIterator) {
 */
 TEST(RemoveDataTest, WhenRemoveFirstOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFirst = list.begin();
 	EXPECT_FALSE(list.remove(itFirst));
 }
 
@@ -420,7 +420,7 @@ TEST(RemoveDataTest, WhenRemoveFirstOfEmptyList) {
 */
 TEST(RemoveDataTest, WhenRemoveLastOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 	EXPECT_FALSE(list.remove(itLast));
 }
 
@@ -436,12 +436,12 @@ TEST(RemoveDataTest, WhenRemoveFirstOfListHavingElements) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itCenterElement = list.getFirstIterator();	//中央の要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itCenterElement = list.begin();	//中央の要素を指すイテレータ
 	++itCenterElement;	//中央の要素へ移動
 
-	ASSERT_TRUE(list.remove(list.getFirstIterator()));
+	ASSERT_TRUE(list.remove(list.begin()));
 
-	bool isEqual = (list.getFirstIterator() == itCenterElement);
+	bool isEqual = (list.begin() == itCenterElement);
 	EXPECT_TRUE(isEqual);
 }
 
@@ -457,7 +457,7 @@ TEST(RemoveDataTest, WhenRemoveLastOfListHavingElements) {
 
 	createListHavingElements(list, 3);
 
-	EXPECT_FALSE(list.remove(list.getLastIterator()));
+	EXPECT_FALSE(list.remove(list.end()));
 }
 
 /**
@@ -472,10 +472,10 @@ TEST(RemoveDataTest, WhenRemoveCenterElementOfListHavingElements) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itCenterElement = list.getFirstIterator();	//中央の要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itCenterElement = list.begin();	//中央の要素を指すイテレータ
 	++itCenterElement;	//中央の要素へ移動
-	TestDoublyLinkedList::Iterator itLastElement = list.getLastIterator();	//末尾要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itLastElement = list.end();	//末尾要素を指すイテレータ
 	--itLastElement;	//末尾要素へ移動
 	
 	ASSERT_TRUE(list.remove(itCenterElement));	//中央の要素を削除
@@ -497,10 +497,10 @@ TEST(RemoveDataTest, WhenRemoveWithConstIterator) {
 
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//先頭要素を指すイテレータ
-	TestDoublyLinkedList::ConstIterator cItCenterElement = list.getFirstConstIterator();	//中央の要素を指すイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::ConstIterator cItCenterElement = list.cbegin();	//中央の要素を指すイテレータ
 	++cItCenterElement;	//中央の要素へ移動
-	TestDoublyLinkedList::ConstIterator cItLastElement = list.getLastConstIterator();	//末尾要素を指すイテレータ
+	TestDoublyLinkedList::ConstIterator cItLastElement = list.cend();	//末尾要素を指すイテレータ
 	--cItLastElement;	//末尾要素へ移動
 
 	ASSERT_TRUE(list.remove(cItCenterElement));	//中央の要素を削除
@@ -525,7 +525,7 @@ TEST(RemoveDataTest, WhenRemoveWithNotAvailableIterator) {
 	EXPECT_FALSE(list.remove(it));	//リストへの参照がないイテレータを渡した場合
 
 	TestDoublyLinkedList listOther;
-	TestDoublyLinkedList::Iterator itOther = listOther.getFirstIterator();
+	TestDoublyLinkedList::Iterator itOther = listOther.begin();
 	EXPECT_FALSE(list.remove(itOther));	//別のリストのイテレータを渡した場合
 }
 
@@ -541,9 +541,9 @@ TEST(RemoveDataTest, WhenRemoveWithNotAvailableIterator) {
 */
 TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFirst = list.begin();
 	
-	bool isEqual = (itFirst == list.getFirstIterator());
+	bool isEqual = (itFirst == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -558,9 +558,9 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListHavingAElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();
 
-	bool isEqual = (itFirstElement == list.getFirstIterator());
+	bool isEqual = (itFirstElement == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -575,9 +575,9 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListHavingElements) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFirst = list.begin();
 
-	bool isEqual = (itFirst == list.getFirstIterator());
+	bool isEqual = (itFirst == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -592,14 +592,14 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListInsertedElementBackOfFirs
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//挿入前の先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itInsert = list.getFirstIterator();	//挿入場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//挿入前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itInsert = list.begin();	//挿入場所を指すイテレータ
 	++itInsert;
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(itInsert, newScoreData));
 
-	bool isEqual = (itFirstElement == list.getFirstIterator());
+	bool isEqual = (itFirstElement == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -614,15 +614,15 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListInsertedElementBackOfCent
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//挿入前の先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itInsert = list.getFirstIterator();	//挿入場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//挿入前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itInsert = list.begin();	//挿入場所を指すイテレータ
 	++itInsert;	//中央の要素へ移動
 	++itInsert;	//末尾要素へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(itInsert, newScoreData));
 
-	bool isEqual = (itFirstElement == list.getFirstIterator());
+	bool isEqual = (itFirstElement == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -637,13 +637,13 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListInsertedElementBackOfLast
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//挿入前の先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itInsert = list.getLastIterator();	//挿入場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//挿入前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itInsert = list.end();	//挿入場所を指すイテレータ
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(itInsert, newScoreData));
 
-	bool isEqual = (itFirstElement == list.getFirstIterator());
+	bool isEqual = (itFirstElement == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -658,13 +658,13 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListRemovedFirstElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itCenterElement = list.getFirstIterator();	//削除前の中央の要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itCenterElement = list.begin();	//削除前の中央の要素を指すイテレータ
 	++itCenterElement;	//中央の要素へ移動
-	TestDoublyLinkedList::Iterator itRemove = list.getFirstIterator();	//削除場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itRemove = list.begin();	//削除場所を指すイテレータ
 
 	ASSERT_TRUE(list.remove(itRemove));
 
-	bool isEqual = (itCenterElement == list.getFirstIterator());	//先頭要素が削除されていれば，削除前の中央の要素が先頭になるはず
+	bool isEqual = (itCenterElement == list.begin());	//先頭要素が削除されていれば，削除前の中央の要素が先頭になるはず
 	EXPECT_TRUE(isEqual);
 }
 
@@ -679,13 +679,13 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListRemovedCenterElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//削除前の先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itRemove = list.getFirstIterator();	//削除場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//削除前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itRemove = list.begin();	//削除場所を指すイテレータ
 	++itRemove;	//中央の要素へ移動
 
 	ASSERT_TRUE(list.remove(itRemove));
 
-	bool isEqual = (itFirstElement == list.getFirstIterator());
+	bool isEqual = (itFirstElement == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -700,13 +700,13 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListRemovedLastElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();	//削除前の先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itRemove = list.getLastIterator();	//削除場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirst = list.begin();	//削除前の先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itRemove = list.end();	//削除場所を指すイテレータ
 	--itRemove;	//末尾要素へ移動
 
 	ASSERT_TRUE(list.remove(itRemove));
 
-	bool isEqual = (itFirst == list.getFirstIterator());
+	bool isEqual = (itFirst == list.begin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -721,9 +721,9 @@ TEST(GetFirstIteratorTest, WhenGetFirstIteratorFromListRemovedLastElement) {
 */
 TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cItFirst = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.cbegin();
 
-	bool isEqual = (cItFirst == list.getFirstConstIterator());
+	bool isEqual = (cItFirst == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -738,9 +738,9 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListHavingAElement)
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -755,9 +755,9 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListHavingElements)
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -772,14 +772,14 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListInsertedElement
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//挿入前の先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItInsert = list.getFirstConstIterator();	//挿入場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//挿入前の先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItInsert = list.cbegin();	//挿入場所を指すコンストイテレータ
 	++cItInsert;	//中央の要素へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(cItInsert, newScoreData));
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -794,15 +794,15 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListInsertedElement
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//挿入前の先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItInsert = list.getFirstConstIterator();	//挿入場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//挿入前の先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItInsert = list.cbegin();	//挿入場所を指すコンストイテレータ
 	++cItInsert;	//中央の要素へ移動
 	++cItInsert;	//末尾要素へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(cItInsert, newScoreData));
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -817,13 +817,13 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListInsertedElement
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//挿入前の先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItInsert = list.getLastConstIterator();	//挿入場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//挿入前の先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItInsert = list.cend();	//挿入場所を指すコンストイテレータ
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(cItInsert, newScoreData));
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -838,13 +838,13 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListRemovedFirstEle
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItCenterElement = list.getFirstConstIterator();	//削除前の中央の要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItCenterElement = list.cbegin();	//削除前の中央の要素を指すコンストイテレータ
 	++cItCenterElement;	//中央の要素へ移動
-	TestDoublyLinkedList::ConstIterator cItRemove = list.getFirstConstIterator();	//削除場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItRemove = list.cbegin();	//削除場所を指すコンストイテレータ
 
 	ASSERT_TRUE(list.remove(cItRemove));
 
-	bool isEqual = (cItCenterElement == list.getFirstConstIterator());	//先頭要素が削除されていれば，削除前の中央の要素が先頭になるはず
+	bool isEqual = (cItCenterElement == list.cbegin());	//先頭要素が削除されていれば，削除前の中央の要素が先頭になるはず
 	EXPECT_TRUE(isEqual);
 }
 
@@ -859,13 +859,13 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListRemovedCenterEl
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//削除前の先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItRemove = list.getFirstConstIterator();	//削除場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//削除前の先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItRemove = list.cbegin();	//削除場所を指すコンストイテレータ
 	++cItRemove;	//中央の要素へ移動
 
 	ASSERT_TRUE(list.remove(cItRemove));
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -880,13 +880,13 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListRemovedLastElem
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();	//削除前の先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItRemove = list.getLastConstIterator();	//削除場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();	//削除前の先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItRemove = list.cend();	//削除場所を指すコンストイテレータ
 	--cItRemove;	//末尾要素へ移動
 
 	ASSERT_TRUE(list.remove(cItRemove));
 
-	bool isEqual = (cItFirstElement == list.getFirstConstIterator());
+	bool isEqual = (cItFirstElement == list.cbegin());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -902,9 +902,9 @@ TEST(GetFirstConstIteratorTest, WhenGetFirstConstIteratorFromListRemovedLastElem
 */
 TEST(GetLastIteratorTest, WhenGetLastIteratorFromEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -919,7 +919,7 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListHavingAElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itLastElement = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itLastElement = list.end();
 	--itLastElement;	//末尾要素へ移動
 
 	ScoreData lastElement("0", "test0");	//末尾要素
@@ -938,7 +938,7 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListHavingElements) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLastElement = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itLastElement = list.end();
 	--itLastElement;	//末尾要素へ移動
 
 	ScoreData lastElement("2", "test2");	//末尾要素
@@ -957,15 +957,15 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListInsertedElementBackOfFirstE
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();	//挿入前の末尾ダミーを指すイテレータ
-	TestDoublyLinkedList::Iterator itInsert = list.getFirstIterator();	//挿入場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();	//挿入前の末尾ダミーを指すイテレータ
+	TestDoublyLinkedList::Iterator itInsert = list.begin();	//挿入場所を指すイテレータ
 	++itInsert;	//後方へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(itInsert, newScoreData));
 
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -980,15 +980,15 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListInsertedElementBackOfCenter
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();	//挿入前の末尾ダミーを指すイテレータ
-	TestDoublyLinkedList::Iterator itInsert = list.getFirstIterator();	//挿入場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();	//挿入前の末尾ダミーを指すイテレータ
+	TestDoublyLinkedList::Iterator itInsert = list.begin();	//挿入場所を指すイテレータ
 	++itInsert;	//中央の要素へ移動
 	++itInsert;	//後方へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(itInsert, newScoreData));
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1003,13 +1003,13 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListInsertedElementBackOfLastEl
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();	//挿入前の末尾ダミーを指すイテレータ
-	TestDoublyLinkedList::Iterator itInsert = list.getLastIterator();	//挿入場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();	//挿入前の末尾ダミーを指すイテレータ
+	TestDoublyLinkedList::Iterator itInsert = list.end();	//挿入場所を指すイテレータ
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(itInsert, newScoreData));
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1024,12 +1024,12 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListRemovedFirstElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();	//削除前の末尾ダミーを指すイテレータ
-	TestDoublyLinkedList::Iterator itRemove = list.getFirstIterator();	//削除場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();	//削除前の末尾ダミーを指すイテレータ
+	TestDoublyLinkedList::Iterator itRemove = list.begin();	//削除場所を指すイテレータ
 
 	ASSERT_TRUE(list.remove(itRemove));
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1044,13 +1044,13 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListRemovedCenterElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();	//削除前の末尾ダミーを指すイテレータ
-	TestDoublyLinkedList::Iterator itRemove = list.getFirstIterator();	//削除場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();	//削除前の末尾ダミーを指すイテレータ
+	TestDoublyLinkedList::Iterator itRemove = list.begin();	//削除場所を指すイテレータ
 	++itRemove;	//中央の要素へ移動
 
 	ASSERT_TRUE(list.remove(itRemove));
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1065,13 +1065,13 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListRemovedLastElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();	//削除前の末尾ダミーを指すイテレータ
-	TestDoublyLinkedList::Iterator itRemove = list.getLastIterator();	//削除場所を指すイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();	//削除前の末尾ダミーを指すイテレータ
+	TestDoublyLinkedList::Iterator itRemove = list.end();	//削除場所を指すイテレータ
 	--itRemove;	//末尾要素へ移動
 
 	ASSERT_TRUE(list.remove(itRemove));
 
-	bool isEqual = (itLast == list.getLastIterator());
+	bool isEqual = (itLast == list.end());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1086,9 +1086,9 @@ TEST(GetLastIteratorTest, WhenGetLastIteratorFromListRemovedLastElement) {
 */
 TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 
-	bool isEqual = (cItLast == list.getLastConstIterator());
+	bool isEqual = (cItLast == list.cend());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1103,7 +1103,7 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListHavingAElement) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItLastElement = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItLastElement = list.cend();
 	--cItLastElement;
 
 	ScoreData lastElement("0", "test0");	//末尾要素
@@ -1122,7 +1122,7 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListHavingElements) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLastElement = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItLastElement = list.cend();
 	--cItLastElement;
 
 	ScoreData lastElement("2", "test2");	//末尾要素
@@ -1141,14 +1141,14 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListInsertedElementBa
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();	//挿入前の末尾ダミーを指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItInsert = list.getFirstConstIterator();	//挿入場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();	//挿入前の末尾ダミーを指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItInsert = list.cbegin();	//挿入場所を指すコンストイテレータ
 	++cItInsert;	//後方へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(cItInsert, newScoreData));
 
-	bool isEqual = (cItLast == list.getLastConstIterator());
+	bool isEqual = (cItLast == list.cend());
 	EXPECT_TRUE(isEqual);
 
 }
@@ -1164,15 +1164,15 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListInsertedElementBa
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLastElement = list.getLastConstIterator();	//挿入前の末尾ダミーを指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItInsert = list.getFirstConstIterator();	//挿入場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLastElement = list.cend();	//挿入前の末尾ダミーを指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItInsert = list.cbegin();	//挿入場所を指すコンストイテレータ
 	++cItInsert;	//中央の要素へ移動
 	++cItInsert;	//後方へ移動
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(cItInsert, newScoreData));
 
-	bool isEqual = (cItLastElement == list.getLastConstIterator());
+	bool isEqual = (cItLastElement == list.cend());
 	EXPECT_TRUE(isEqual);
 
 }
@@ -1188,13 +1188,13 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListInsertedElementBa
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();	//挿入前の末尾ダミーを指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItInsert = list.getLastConstIterator();	//挿入場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();	//挿入前の末尾ダミーを指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItInsert = list.cend();	//挿入場所を指すコンストイテレータ
 
 	ScoreData newScoreData("100", "newData");
 	ASSERT_TRUE(list.insert(cItInsert, newScoreData));
 
-	bool isEqual = (cItLast == list.getLastConstIterator());
+	bool isEqual = (cItLast == list.cend());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1209,12 +1209,12 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListRemovedFirstEleme
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();	//削除前の末尾ダミーを指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItRemove = list.getFirstConstIterator();	//削除場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();	//削除前の末尾ダミーを指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItRemove = list.cbegin();	//削除場所を指すコンストイテレータ
 
 	ASSERT_TRUE(list.remove(cItRemove));
 
-	bool isEqual = (cItLast == list.getLastConstIterator());
+	bool isEqual = (cItLast == list.cend());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1229,13 +1229,13 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListRemovedCenterElem
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLastElement = list.getLastConstIterator();	//削除前の末尾ダミーを指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItRemove = list.getFirstConstIterator();	//削除場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLastElement = list.cend();	//削除前の末尾ダミーを指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItRemove = list.cbegin();	//削除場所を指すコンストイテレータ
 	++cItRemove;	//中央の要素へ移動
 
 	ASSERT_TRUE(list.remove(cItRemove));
 
-	bool isEqual = (cItLastElement == list.getLastConstIterator());
+	bool isEqual = (cItLastElement == list.cend());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1250,13 +1250,13 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListRemovedLastElemen
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 3);
 
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();	//削除前の末尾ダミーを指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItRemove = list.getLastConstIterator();	//削除場所を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();	//削除前の末尾ダミーを指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItRemove = list.cend();	//削除場所を指すコンストイテレータ
 	--cItRemove;	//末尾要素へ移動
 
 	ASSERT_TRUE(list.remove(cItRemove));
 
-	bool isEqual = (cItLast == list.getLastConstIterator());
+	bool isEqual = (cItLast == list.cend());
 	EXPECT_TRUE(isEqual);
 }
 
@@ -1298,7 +1298,7 @@ TEST(GetElementOfIteratorTest, WhenAssignToElementOfIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 
 	ScoreData newScoreData("100", "newData");
 	*it = newScoreData;
@@ -1316,7 +1316,7 @@ TEST(GetElementOfIteratorTest, WhenAssignToElementOfIterator) {
 */
 TEST(GetElementOfIteratorTest, WhenGetElementOfFirstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFirst = list.begin();
 	EXPECT_DEATH((*itFirst), "Assertion failed.*");
 }
 
@@ -1329,7 +1329,7 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfFirstIteratorOfEmptyList) {
 */
 TEST(GetElementOfIteratorTest, WhenGetElementOfFirstConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cItFirst = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.cbegin();
 	EXPECT_DEATH((*cItFirst), "Assertion failed.*");
 }
 
@@ -1342,7 +1342,7 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfFirstConstIteratorOfEmptyList) {
 */
 TEST(GetElementOfIteratorTest, WhenGetElementOfLastIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 	EXPECT_DEATH((*itLast), "Assertion failed.*");
 }
 
@@ -1355,7 +1355,7 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfLastIteratorOfEmptyList) {
 */
 TEST(GetElementOfIteratorTest, WhenGetElementOfLastConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 	EXPECT_DEATH((*cItLast), "Assertion failed.*");
 }
 
@@ -1395,7 +1395,7 @@ TEST(IncrementIteratorTest, WhenIncrementConstIteratorHaveNotReferenceToList) {
 */
 TEST(IncrementIteratorTest, WhenIncrementFirstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 	EXPECT_DEATH(++it, "Assertion failed.*");
 }
 
@@ -1408,7 +1408,7 @@ TEST(IncrementIteratorTest, WhenIncrementFirstIteratorOfEmptyList) {
 */
 TEST(IncrementIteratorTest, WhenIncrementFirstConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cIt = list.cbegin();
 	EXPECT_DEATH(++cIt, "Assertion failed.*");
 }
 
@@ -1421,7 +1421,7 @@ TEST(IncrementIteratorTest, WhenIncrementFirstConstIteratorOfEmptyList) {
 */
 TEST(IncrementIteratorTest, WhenIncrementLastIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getLastIterator();
+	TestDoublyLinkedList::Iterator it = list.end();
 	EXPECT_DEATH(++it, "Assertion failed.*");
 }
 
@@ -1434,7 +1434,7 @@ TEST(IncrementIteratorTest, WhenIncrementLastIterator) {
 */
 TEST(IncrementIteratorTest, WhenIncrementLastConstIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cIt = list.cend();
 	EXPECT_DEATH(++cIt, "Assertion failed.*");
 }
 
@@ -1447,7 +1447,7 @@ TEST(IncrementIteratorTest, WhenIncrementLastConstIterator) {
 */
 TEST(IncrementIteratorTest, WhenIncrementIteratorOnListHaveElements) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 	
 	ScoreData scoreData1("1", "test1");
 	ScoreData scoreData2("2", "test2");
@@ -1458,8 +1458,8 @@ TEST(IncrementIteratorTest, WhenIncrementIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::Iterator itIncrement = list.getFirstIterator();	//先頭から末尾へ移動するイテレータ
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itIncrement = list.begin();	//先頭から末尾へ移動するイテレータ
+	TestDoublyLinkedList::Iterator itLast = list.end();
 
 	int i = 0;
 	while (itIncrement != itLast) {
@@ -1479,7 +1479,7 @@ TEST(IncrementIteratorTest, WhenIncrementIteratorOnListHaveElements) {
 */
 TEST(IncrementIteratorTest, WhenIncrementConstIteratorOnListHaveElements) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 
 	ScoreData scoreData1("1", "test1");
 	ScoreData scoreData2("2", "test2");
@@ -1490,8 +1490,8 @@ TEST(IncrementIteratorTest, WhenIncrementConstIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::ConstIterator cItIncrement = list.getFirstConstIterator();	//先頭から末尾へ移動するコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItIncrement = list.cbegin();	//先頭から末尾へ移動するコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 
 	int i = 0;
 	while (cItIncrement != cItLast) {
@@ -1513,8 +1513,8 @@ TEST(IncrementIteratorTest, WhenPrefixIncrementIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itIncrement = list.getFirstIterator();
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itIncrement = list.begin();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 
 	bool isEqualWhenIncrement = ((++itIncrement) == itLast);
 	bool isEqualAfterIncrement = (itIncrement == itLast);
@@ -1533,8 +1533,8 @@ TEST(IncrementIteratorTest, WhenPrefixIncrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItIncrement = list.getFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItIncrement = list.cbegin();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 
 	bool isEqualWhenIncrement = ((++cItIncrement) == cItLast);
 	bool isEqualAfterIncrement = (cItIncrement == cItLast);
@@ -1553,9 +1553,9 @@ TEST(IncrementIteratorTest, WhenPostfixIncrementIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itIncrement = list.getFirstIterator();
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itIncrement = list.begin();
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 
 	bool isEqualWhenIncrement = ((itIncrement++) == itFirstElement);
 	bool isEqualAfterIncrement = (itIncrement == itLast);
@@ -1574,9 +1574,9 @@ TEST(IncrementIteratorTest, WhenPostfixIncrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItIncrement = list.getFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItIncrement = list.cbegin();
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 
 	bool isEqualWhenIncrement = ((cItIncrement++) == cItFirstElement);
 	bool isEqualAfterIncrement = (cItIncrement == cItLast);
@@ -1619,7 +1619,7 @@ TEST(DecrementIteratorTest, WhenDecrementConstIteratorHaveNotReferenceToList) {
 */
 TEST(DecrementIteratorTest, WhenDecrementLastIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getReverseLastIterator();
+	TestDoublyLinkedList::Iterator it = list.rend();
 	EXPECT_DEATH(--it, "Assertion failed.*");
 }
 
@@ -1632,7 +1632,7 @@ TEST(DecrementIteratorTest, WhenDecrementLastIteratorOfEmptyList) {
 */
 TEST(DecrementIteratorTest, WhenDecrementLastConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.getReverseLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cIt = list.rcend();
 	EXPECT_DEATH(--cIt, "Assertion failed.*");
 }
 
@@ -1645,7 +1645,7 @@ TEST(DecrementIteratorTest, WhenDecrementLastConstIteratorOfEmptyList) {
 */
 TEST(DecrementIteratorTest, WhenDecrementFirstIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getReverseFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.rbegin();
 	EXPECT_DEATH(--it, "Assertion failed.*");
 }
 
@@ -1658,7 +1658,7 @@ TEST(DecrementIteratorTest, WhenDecrementFirstIterator) {
 */
 TEST(DecrementIteratorTest, WhenDecrementFirstConstIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.getReverseFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cIt = list.rcbegin();
 	EXPECT_DEATH(--cIt, "Assertion failed.*");
 }
 
@@ -1671,7 +1671,7 @@ TEST(DecrementIteratorTest, WhenDecrementFirstConstIterator) {
 */
 TEST(DecrementIteratorTest, WhenDecrementIteratorOnListHaveElements) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 
 	ScoreData scoreData1("1", "test1");
 	ScoreData scoreData2("2", "test2");
@@ -1682,10 +1682,10 @@ TEST(DecrementIteratorTest, WhenDecrementIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::Iterator itDecrement = list.getReverseFirstIterator();	//末尾から先頭へ移動するイテレータ
+	TestDoublyLinkedList::Iterator itDecrement = list.rbegin();	//末尾から先頭へ移動するイテレータ
 
 	int i = 2;
-	while (itDecrement != list.getReverseLastIterator()) {
+	while (itDecrement != list.rend()) {
 		bool isEqual = ((*itDecrement) == scores[i]);
 		EXPECT_TRUE(isEqual);
 		itDecrement--;
@@ -1702,7 +1702,7 @@ TEST(DecrementIteratorTest, WhenDecrementIteratorOnListHaveElements) {
 */
 TEST(DecrementIteratorTest, WhenDecrementConstIteratorOnListHaveElements) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 
 	ScoreData scoreData1("1", "test1");
 	ScoreData scoreData2("2", "test2");
@@ -1713,10 +1713,10 @@ TEST(DecrementIteratorTest, WhenDecrementConstIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.getReverseFirstConstIterator();	//末尾から先頭へ移動するコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.rcbegin();	//末尾から先頭へ移動するコンストイテレータ
 
 	int i = 2;
-	while (cItDecrement != list.getReverseLastConstIterator()) {
+	while (cItDecrement != list.rcend()) {
 		bool isEqual = ((*cItDecrement) == scores[i]);
 		EXPECT_TRUE(isEqual);
 		cItDecrement--;
@@ -1735,8 +1735,8 @@ TEST(DecrementIteratorTest, WhenPrefixDecrementIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itDecrement = list.getReverseFirstIterator();
-	TestDoublyLinkedList::Iterator itFirst = list.getReverseLastIterator();
+	TestDoublyLinkedList::Iterator itDecrement = list.rbegin();
+	TestDoublyLinkedList::Iterator itFirst = list.rend();
 
 	bool isEqualWhenDecrement = ((--itDecrement) == itFirst);
 	bool isEqualAfterDecrement = (itDecrement == itFirst);
@@ -1755,8 +1755,8 @@ TEST(DecrementIteratorTest, WhenPrefixDecrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.getReverseFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItFirst = list.getReverseLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.rcbegin();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.rcend();
 
 	bool isEqualWhenDecrement = ((--cItDecrement) == cItFirst);
 	bool isEqualAfterDecrement = (cItDecrement == cItFirst);
@@ -1775,9 +1775,9 @@ TEST(DecrementIteratorTest, WhenPostfixDecrementIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itDecrement = list.getReverseFirstIterator();
-	TestDoublyLinkedList::Iterator itLast = list.getReverseFirstIterator();
-	TestDoublyLinkedList::Iterator itFirst = list.getReverseLastIterator();
+	TestDoublyLinkedList::Iterator itDecrement = list.rbegin();
+	TestDoublyLinkedList::Iterator itLast = list.rbegin();
+	TestDoublyLinkedList::Iterator itFirst = list.rend();
 
 	bool isEqualWhenDecrement = ((itDecrement--) == itLast);
 	bool isEqualAfterDecrement = (itDecrement == itFirst);
@@ -1796,9 +1796,9 @@ TEST(DecrementIteratorTest, WhenPostfixDecrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.getReverseFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItLast = list.getReverseFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItFirst = list.getReverseLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.rcbegin();
+	TestDoublyLinkedList::ConstIterator cItLast = list.rcbegin();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.rcend();
 
 	bool isEqualWhenDecrement = ((cItDecrement--) == cItLast);
 	bool isEqualAfterDecrement = (cItDecrement == cItFirst);
@@ -1820,7 +1820,7 @@ TEST(CopyIteratorTest, WhenCallIteratorCopyConstructor) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itFrom = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFrom = list.begin();
 	TestDoublyLinkedList::Iterator itTo = itFrom;
 
 	bool isEqual = ((*itFrom) == (*itTo));
@@ -1838,7 +1838,7 @@ TEST(CopyIteratorTest, WhenCallConstIteratorCopyConstructor) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItFrom = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFrom = list.cbegin();
 	TestDoublyLinkedList::ConstIterator cItTo = cItFrom;
 
 	bool isEqual = ((*cItFrom) == (*cItTo));
@@ -1859,7 +1859,7 @@ TEST(AssignIteratorTest, WhenAssignIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itFrom = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator itFrom = list.begin();
 	TestDoublyLinkedList::Iterator itTo;
 	itTo = itFrom;
 
@@ -1878,7 +1878,7 @@ TEST(AssignIteratorTest, WhenAssignConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator itFrom = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator itFrom = list.cbegin();
 	TestDoublyLinkedList::ConstIterator itTo;
 	itTo = itFrom;
 
@@ -1898,8 +1898,8 @@ TEST(AssignIteratorTest, WhenAssignConstIterator) {
 */
 TEST(CompareTwoIteratorsIsSameTest, WhenCompareFirstAndLastIteratorsOfemptyListIsSame) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itFirst = list.begin();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 
 	bool isEqual = (itFirst == itLast);
 	EXPECT_TRUE(isEqual);
@@ -1914,8 +1914,8 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareFirstAndLastIteratorsOfemptyListI
 */
 TEST(CompareTwoIteratorsIsSameTest, WhenCompareFirstAndLastConstIteratorsOfemptyListIsSame) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cItFirst = list.getFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.cbegin();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 
 	bool isEqual = (cItFirst == cItLast);
 	EXPECT_TRUE(isEqual);
@@ -1932,7 +1932,7 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareSameIteratorsIsSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 
 	bool isEqual = (it == it);
 	EXPECT_TRUE(isEqual);
@@ -1949,7 +1949,7 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareSameConstIteratorsIsSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cIt = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cIt = list.cbegin();
 
 	bool isEqual = (cIt == cIt);
 	EXPECT_TRUE(isEqual);
@@ -1966,8 +1966,8 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareNotSameIteratorsIsSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 2);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itCenterElement = list.getFirstIterator();	//中央の要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itCenterElement = list.begin();	//中央の要素を指すイテレータ
 	++itCenterElement;	//中央の要素へ移動
 
 	bool isEqual = (itFirstElement == itCenterElement);
@@ -1985,8 +1985,8 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareNotSameConstIteratorsIsSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 2);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();		//先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItCenterElement = list.getFirstConstIterator();	//中央の要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();		//先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItCenterElement = list.cbegin();	//中央の要素を指すコンストイテレータ
 	++cItCenterElement;	//中央の要素へ移動
 
 	bool isEqual = (cItFirstElement == cItCenterElement);
@@ -2004,8 +2004,8 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareNotSameConstIteratorsIsSame) {
 */
 TEST(CompareTwoIteratorsIsNotSameTest, WhenCompareFirstAndLastIteratorsOfemptyListIsNotSame) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator itFirst = list.getFirstIterator();
-	TestDoublyLinkedList::Iterator itLast = list.getLastIterator();
+	TestDoublyLinkedList::Iterator itFirst = list.begin();
+	TestDoublyLinkedList::Iterator itLast = list.end();
 
 	bool isEqual = (itFirst != itLast);
 	EXPECT_FALSE(isEqual);	//先頭ダミーと末尾ダミーを指しているため異なってしまう
@@ -2020,8 +2020,8 @@ TEST(CompareTwoIteratorsIsNotSameTest, WhenCompareFirstAndLastIteratorsOfemptyLi
 */
 TEST(CompareTwoIteratorsIsNotSameTest, WhenCompareFirstAndLastConstIteratorsOfemptyListIsNotSame) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cItFirst = list.getFirstConstIterator();
-	TestDoublyLinkedList::ConstIterator cItLast = list.getLastConstIterator();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.cbegin();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 
 	bool isEqual = (cItFirst != cItLast);
 	EXPECT_FALSE(isEqual);	//先頭ダミーと末尾ダミーを指しているため異なってしまう
@@ -2038,7 +2038,7 @@ TEST(CompareTwoIteratorsIsNotSameTest, WhenCompareSameIteratorsIsNotSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator it = list.getFirstIterator();
+	TestDoublyLinkedList::Iterator it = list.begin();
 
 	bool isEqual = (it != it);
 	EXPECT_FALSE(isEqual);
@@ -2055,7 +2055,7 @@ TEST(CompareTwoIteratorsIsNotSameTest, WhenCompareSameConstIteratorsIsNotSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cIt = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator cIt = list.cbegin();
 
 	bool isEqual = (cIt != cIt);
 	EXPECT_FALSE(isEqual);
@@ -2072,8 +2072,8 @@ TEST(CompareTwoIteratorsIsNotSameTest, WhenCompareNotSameIteratorsIsNotSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 2);
 
-	TestDoublyLinkedList::Iterator itFirstElement = list.getFirstIterator();	//先頭要素を指すイテレータ
-	TestDoublyLinkedList::Iterator itCenterElement = list.getFirstIterator();	//中央の要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();	//先頭要素を指すイテレータ
+	TestDoublyLinkedList::Iterator itCenterElement = list.begin();	//中央の要素を指すイテレータ
 	++itCenterElement;	//中央の要素へ移動
 
 	bool isEqual = (itFirstElement != itCenterElement);
@@ -2091,8 +2091,8 @@ TEST(CompareTwoIteratorsIsSameTest, WhenCompareNotSameConstIteratorsIsNotSame) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 2);
 
-	TestDoublyLinkedList::ConstIterator cItFirstElement = list.getFirstConstIterator();		//先頭要素を指すコンストイテレータ
-	TestDoublyLinkedList::ConstIterator cItCenterElement = list.getFirstConstIterator();	//中央の要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();		//先頭要素を指すコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItCenterElement = list.cbegin();	//中央の要素を指すコンストイテレータ
 	++cItCenterElement;	//中央の要素へ移動
 
 	bool isEqual = (cItFirstElement != cItCenterElement);

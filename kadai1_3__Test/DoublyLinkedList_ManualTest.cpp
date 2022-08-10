@@ -1,5 +1,8 @@
 #include "pch.h"
-#include "../kadai1_2/DoublyLinkedList.h"
+#include "../kadai1_3/DoublyLinkedList.h"
+#include "../kadai1_3/ScoreData.h"
+
+using TestDoublyLinkedList = DoublyLinkedList<ScoreData>;
 
 //=================================== データ数の取得 ===================================
 
@@ -15,7 +18,7 @@
 TEST(GetDataNumManualTest, WhenListIsConst)
 {
 #if defined TT_TEST_GET_DATA_NUM_WHEN_CONST
-	const DoublyLinkedList list;
+	const TestDoublyLinkedList list;
 	EXPECT_EQ(0, list.size());
 #endif //TT_TEST_GET_DATA_NUM_WHEN_CONST
 	SUCCEED();
@@ -35,8 +38,8 @@ TEST(GetDataNumManualTest, WhenListIsConst)
 TEST(InsertDataManualTest, WhenInsertToConstList)
 {
 #if defined TT_TEST_INSERT_WHEN_CONST
-	const DoublyLinkedList list;
-	DoublyLinkedList::ConstIterator it = list.getFirstConstIterator();
+	const TestDoublyLinkedList list;
+	TestDoublyLinkedList::ConstIterator it = list.cbegin();
 	ScoreData scoredata("1", "test");
 	list.insert(it, scoredata);//ここでエラー
 #endif //TT_TEST_INSERT_WHEN_CONST
@@ -57,8 +60,8 @@ TEST(InsertDataManualTest, WhenInsertToConstList)
 TEST(RemoveDataManualTest, WhenRemoveFromConstList)
 {
 #if defined TT_TEST_REMOVE_WHEN_CONST
-	const DoublyLinkedList list;
-	DoublyLinkedList::ConstIterator it = list.getFirstConstIterator();
+	const TestDoublyLinkedList list;
+	TestDoublyLinkedList::ConstIterator it = list.cbegin();
 	list.remove(it);//ここでエラー
 
 #endif //TT_TEST_REMOVE_WHEN_CONST
@@ -79,8 +82,8 @@ TEST(RemoveDataManualTest, WhenRemoveFromConstList)
 TEST(GetFistIteratorManualTest, WhenGetFirstIteratorFromConstList)
 {
 #if defined TT_TEST_GET_FIRST_ITERATOR_WHEN_CONST
-	const DoublyLinkedList list;
-	DoublyLinkedList::Iterator it = list.getFirstIterator();	//ここでエラー
+	const TestDoublyLinkedList list;
+	TestDoublyLinkedList::Iterator it = list.cbegin();	//ここでエラー
 
 #endif //TT_TEST_GET_FIRST_ITERATOR_WHEN_CONST
 	SUCCEED();
@@ -100,8 +103,8 @@ TEST(GetFistIteratorManualTest, WhenGetFirstIteratorFromConstList)
 TEST(GetFistConstIteratorManualTest, WhenGetFirstConstIteratorFromConstList)
 {
 #if defined TT_TEST_GET_FIRST_CONST_ITERATOR_WHEN_CONST
-	const DoublyLinkedList list;
-	DoublyLinkedList::ConstIterator it = list.getFirstConstIterator();
+	const TestDoublyLinkedList list;
+	TestDoublyLinkedList::ConstIterator it = list.cbegin();
 
 #endif //TT_TEST_GET_FIRST_CONST_ITERATOR_WHEN_CONST
 	SUCCEED();
@@ -121,8 +124,8 @@ TEST(GetFistConstIteratorManualTest, WhenGetFirstConstIteratorFromConstList)
 TEST(GetLastIteratorManualTest, WhenGetLastIteratorFromConstList)
 {
 #if defined TT_TEST_GET_LAST_ITERATOR_WHEN_CONST
-	const DoublyLinkedList list;
-	DoublyLinkedList::Iterator it = list.getLastIterator();	//ここでエラー
+	const TestDoublyLinkedList list;
+	TestDoublyLinkedList::Iterator it = list.end();	//ここでエラー
 
 #endif //TT_TEST_GET_LAST_ITERATOR_WHEN_CONST
 	SUCCEED();
@@ -142,8 +145,8 @@ TEST(GetLastIteratorManualTest, WhenGetLastIteratorFromConstList)
 TEST(GetLastConstIteratorManualTest, WhenGetLastConstIteratorFromConstList)
 {
 #if defined TT_TEST_GET_LAST_CONST_ITERATOR_WHEN_CONST
-	const DoublyLinkedList list;
-	DoublyLinkedList::ConstIterator it = list.getLastConstIterator();
+	const TestDoublyLinkedList list;
+	TestDoublyLinkedList::ConstIterator it = list.cend();
 
 #endif //TT_TEST_GET_LAST_CONST_ITERATOR_WHEN_CONST
 	SUCCEED();
@@ -164,10 +167,10 @@ TEST(GetLastConstIteratorManualTest, WhenGetLastConstIteratorFromConstList)
 TEST(GetElementOfIteratorManualTest, WhenAssignToElementOfConstIterator)
 {
 #if defined TT_TEST_ASSIGN_TO_ELEMENT_OF_ITERATOR_WHEN_CONST
-	DoublyLinkedList list;
+	TestDoublyLinkedList list;
 	ScoreData scoreData("1", "test1");
 
-	DoublyLinkedList::ConstIterator it = list.getFirstConstIterator();
+	TestDoublyLinkedList::ConstIterator it = list.cbegin();
 
 	ScoreData newScoreData("100", "newData");
 	*it = newScoreData;	//ここでエラー
@@ -190,8 +193,8 @@ TEST(GetElementOfIteratorManualTest, WhenAssignToElementOfConstIterator)
 TEST(CopyIteratorTest, WhenCopyToIteratorFromConstIterator)
 {
 #if defined TT_TEST_COPY_TO_ITERATOR_FROM_CONST_ITERATOR
-	DoublyLinkedList::ConstIterator cIt;
-	DoublyLinkedList::Iterator it = cIt;	//ここでエラー
+	TestDoublyLinkedList::ConstIterator cIt;
+	TestDoublyLinkedList::Iterator it = cIt;	//ここでエラー
 
 #endif //TT_TEST_COPY_TO_ITERATOR_FROM_CONST_ITERATOR
 	SUCCEED();
@@ -212,8 +215,8 @@ TEST(CopyIteratorTest, WhenCopyToIteratorFromConstIterator)
 TEST(AssignIteratorTest, WhenAssignConstIteratorToIterator)
 {
 #if defined TT_TEST_ASSIGN_CONSTITERATOR_TO_ITERATOR
-	DoublyLinkedList::ConstIterator cIt;
-	DoublyLinkedList::Iterator it;
+	TestDoublyLinkedList::ConstIterator cIt;
+	TestDoublyLinkedList::Iterator it;
 
 	it = cIt;	//ここでエラー
 

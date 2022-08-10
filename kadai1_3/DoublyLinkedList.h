@@ -3,16 +3,11 @@
 #ifndef DoublyLinkedList_h
 #define DoublyLinkedList_h
 
-class ConstIterator;
-class Iterator;
-
 template<class T>
 class DoublyLinkedList {
 
-	friend ConstIterator;
-	friend Iterator;
-
 private:
+
 	struct Node {
 
 		Node* preNode; /** １つ前方のNodeを指すポインタ */
@@ -28,7 +23,7 @@ private:
 		Node(Node* preNode, Node* nextNode);
 
 		/**
-		* 前後のノードとデータを指定してNodeを作成するコンストラクタ
+		* 前後のノードと格納する値を指定してNodeを作成するコンストラクタ
 		*
 		* @param[in] preNode １つ前方のNodeを指すポインタ
 		* @param[in] nextNode １つ後方のNodeを指すポインタ
@@ -39,13 +34,27 @@ private:
 
 public:
 	class ConstIterator {
-	private:
-		friend DoublyLinkedList;
+	protected:
 
-		const DoublyLinkedList* referenceToList;	/** リストへの参照 */
-		Node* _it; /** 内部的に保持するNode* */
+		const DoublyLinkedList<T>* _referenceToList;	/** リストへの参照 */
+		Node* _ptr;	/** イテレータが内部的に保持するNode* */
 
 	public:
+
+		/**
+		* リストへの参照を返す関数
+		*/
+		const DoublyLinkedList<T>* getReferenceToList() {
+			return _referenceToList;
+		}
+
+		/**
+		* ノードへの参照を返す関数
+		*/
+		Node* getPtr() {
+			return _ptr;
+		}
+
 		/**
 		* ConstIteratorを１つ前方に戻す(前置デクリメント)
 		*/
@@ -74,12 +83,17 @@ public:
 		/**
 		* デフォルトコンストラクタ
 		*/
-		ConstIterator() {};
-
+		ConstIterator() {}
+		
 		/**
 		* コピーコンストラクタ
 		*/
-		ConstIterator(const ConstIterator& constIterator) :referenceToList(constIterator.referenceToList), _it(constIterator._it) {}
+		ConstIterator(const ConstIterator& constIterator) :_referenceToList(constIterator._referenceToList), _ptr(constIterator._ptr) {}
+
+		/**
+		* 参照するリストとNode*からコンストイテレータを作成するコンストラクタ
+		*/
+		ConstIterator(const DoublyLinkedList<T>* list, Node* node) :_referenceToList(list), _ptr(node) {}
 
 		/**
 		* ConstIteratorの代入
@@ -105,29 +119,7 @@ public:
 	};
 
 	class Iterator :public ConstIterator {
-	private:
-		friend DoublyLinkedList;
-
 	public:
-		/**
-		* Iteratorを１つ前方に戻す(前置デクリメント)
-		*/
-		Iterator& operator--();
-
-		/**
-		* Iteratorを１つ前方に戻す(後置デクリメント)
-		*/
-		Iterator operator--(int);
-
-		/**
-		* Iteratorを１つ後方に進める(前置インクリメント)
-		*/
-		Iterator& operator++();
-
-		/**
-		* Iteratorを１つ後方に進める(後置インクリメント)
-		*/
-		Iterator operator++(int);
 
 		/**
 		* Iteratorがもつ値を参照する
@@ -137,33 +129,17 @@ public:
 		/**
 		* デフォルトコンストラクタ
 		*/
-		Iterator() {};
+		Iterator() :ConstIterator() {}
 
 		/**
 		* コピーコンストラクタ
 		*/
-		Iterator(const Iterator& iterator) :ConstIterator(iterator) {};
+		Iterator(const Iterator& iterator) :ConstIterator(iterator) {}
 
 		/**
-		* Iteratorの代入
+		* 参照するリストとNode*からイテレータを作成するコンストラクタ
 		*/
-		Iterator& operator=(Iterator& rhs);
-
-		/**
-		* ２つのIteratorが等しいか判定
-		*
-		* @return bool	true:lhsとrhsが等しい\n
-						false:lhsとrhsが異なる\n
-		*/
-		bool operator==(const Iterator& rhs) const;
-
-		/**
-		* ２つのIteratorが異なるか判定
-		*
-		* @return bool	true:lhsとrhsが異なる\n
-						false:lhsとrhsが等しい\n
-		*/
-		bool operator!=(const Iterator& rhs) const;
+		Iterator(DoublyLinkedList<T>* list, Node* node) :ConstIterator(list, node) {}
 	};
 
 private:
@@ -181,20 +157,14 @@ public:
 	DoublyLinkedList();
 
 	/**
+	* デストラクタ
+	*/
+	~DoublyLinkedList();
+
+	/**
 	* @return int ダミーノードを除くノードの個数
 	*/
 	int size() const;
-
-	/**
-	* 指定したイテレータの１つ前方にデータを挿入する
-	*
-	* @param[in] iterator 挿入する場所を指すイテレータ
-	* @param[in] value 挿入する値
-	*
-	* @return bool	true:正常にデータを挿入することができた\n
-	*				false:データの挿入に失敗した\n
-	*/
-	bool insert(Iterator iterator,const T& value);
 
 	/**
 	* 指定したコンストイテレータの１つ前方にデータを挿入する
@@ -208,20 +178,11 @@ public:
 	bool insert(ConstIterator cIterator, const T& value);
 
 	/**
-	* データの削除し，削除したデータの１つ前方のデータにイテレータを戻す
-	*
-	* @param[in] iterator 削除するデータを指すイテレータ
-	* @return bool	true:正常にデータを挿入することができた\n
-	*				false:データの挿入に失敗した\n
-	*/
-	bool remove(Iterator iterator);
-
-	/**
 	* データの削除し，削除したデータの１つ前方のデータにコンストイテレータを戻す
 	*
 	* @param[in] cIterator 削除するデータを指すコンストイテレータ
-	* @return bool	true:正常にデータを挿入することができた\n
-	*				false:データの挿入に失敗した\n
+	* @return bool	true:正常にデータを削除することができた\n
+	*				false:データの削除に失敗した\n
 	*/
 	bool remove(ConstIterator cIterator);
 
@@ -231,15 +192,7 @@ public:
 	* @return ConstIterator	リストが空の場合は先頭のダミーを指すコンストイテレータ\n
 	*						リストに要素がある場合は先頭要素を指すコンストイテレータ\n
 	*/
-	ConstIterator getFirstConstIterator() const;
-
-	/**
-	* リストを逆順に見る際の先頭を指すコンストイテレータを返す
-	*
-	* @return ConstIterator	リストが空の場合はリスト逆順の先頭のダミーを指すコンストイテレータ\n
-	*						リストに要素がある場合はリスト逆順の先頭要素を指すコンストイテレータ\n
-	*/
-	ConstIterator getReverseFirstConstIterator() const;
+	ConstIterator cbegin() const;
 
 	/**
 	* リストの末尾を指すコンストイテレータを返す
@@ -247,7 +200,15 @@ public:
 	* @return ConstIterator	リストが空の場合は末尾のダミーを指すコンストイテレータ\n
 	*						リストに要素がある場合は末尾要素を指すコンストイテレータ\n
 	*/
-	ConstIterator getLastConstIterator() const;
+	ConstIterator cend() const;
+
+	/**
+	* リストを逆順に見る際の先頭を指すコンストイテレータを返す
+	*
+	* @return ConstIterator	リストが空の場合はリスト逆順の先頭のダミーを指すコンストイテレータ\n
+	*						リストに要素がある場合はリスト逆順の先頭要素を指すコンストイテレータ\n
+	*/
+	ConstIterator rcbegin() const;
 
 	/**
 	* リストを逆順に見る際の末尾を指すコンストイテレータを返す
@@ -255,7 +216,7 @@ public:
 	* @return ConstIterator	リストが空の場合はリスト逆順の末尾のダミーを指すコンストイテレータ\n
 	*						リストに要素がある場合はリスト逆順の末尾要素を指すコンストイテレータ\n
 	*/
-	ConstIterator getReverseLastConstIterator() const;
+	ConstIterator rcend() const;
 
 	/**
 	* リストの先頭を指すイテレータを返す
@@ -263,15 +224,7 @@ public:
 	* @return Iterator	リストが空の場合は先頭のダミーを指すイテレータ\n
 	*					リストに要素がある場合は先頭要素を指すイテレータ\n
 	*/
-	Iterator getFirstIterator();
-
-	/**
-	* リストを逆順に見る際の先頭を指すイテレータを返す
-	*
-	* @return ConstIterator	リストが空の場合はリスト逆順の先頭のダミーを指すイテレータ\n
-	*						リストに要素がある場合はリスト逆順の先頭要素を指すイテレータ\n
-	*/
-	Iterator getReverseFirstIterator();
+	Iterator begin();
 
 	/**
 	* リストの末尾を指すイテレータを返す
@@ -279,15 +232,23 @@ public:
 	* @return Iterator	リストが空の場合は末尾のダミーを指すイテレータ\n
 	*					リストに要素がある場合は末尾要素を指すイテレータ\n
 	*/
-	Iterator getLastIterator();
+	Iterator end();
+
+	/**
+	* リストを逆順に見る際の先頭を指すイテレータを返す
+	*
+	* @return Iterator	リストが空の場合はリスト逆順の先頭のダミーを指すイテレータ\n
+	*					リストに要素がある場合はリスト逆順の先頭要素を指すイテレータ\n
+	*/
+	Iterator rbegin();
 
 	/**
 	* リストを逆順に見る際の末尾を指すイテレータを返す
 	*
-	* @return ConstIterator	リストが空の場合はリスト逆順の末尾のダミーを指すイテレータ\n
-	*						リストに要素がある場合はリスト逆順の末尾要素を指すイテレータ\n
+	* @return Iterator	リストが空の場合はリスト逆順の末尾のダミーを指すイテレータ\n
+	*					リストに要素がある場合はリスト逆順の末尾要素を指すイテレータ\n
 	*/
-	Iterator getReverseLastIterator();
+	Iterator rend();
 
 };
 

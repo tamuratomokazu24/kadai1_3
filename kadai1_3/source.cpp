@@ -1,7 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
-#include<list>
+#include<algorithm>
 
 #include "DoublyLinkedList.h"
 #include "ScoreData.h"
@@ -11,7 +11,7 @@ int main() {
 	std::ifstream fileInput(fileName);
 
 	DoublyLinkedList<ScoreData> list;
-	DoublyLinkedList<ScoreData>::Iterator itInsert = list.getFirstIterator();
+	DoublyLinkedList<ScoreData>::Iterator itInsert = list.begin();
 
 	while (!fileInput.eof()) {
 
@@ -20,7 +20,7 @@ int main() {
 		list.insert(itInsert, scoreData);
 	}
 
-	for (auto i = list.getFirstIterator(); i != list.getLastIterator(); i++) {
+	for (auto i = list.begin(); i != list.end(); i++) {
 		std::cout << (*i).score << "," << (*i).name << std::endl;
 	}
 
