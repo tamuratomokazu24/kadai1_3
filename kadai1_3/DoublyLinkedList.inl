@@ -157,13 +157,13 @@ typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::cend() const {
 }
 
 template<class T>
-typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::rcbegin() const {
+typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::crbegin() const {
 	ConstIterator ret(this, _dummyLastNode->preNode);
 	return ret;
 }
 
 template<class T>
-typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::rcend() const {
+typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::crend() const {
 	ConstIterator ret(this, _dummyFirstNode);
 	return ret;
 }

@@ -1632,7 +1632,7 @@ TEST(DecrementIteratorTest, WhenDecrementLastIteratorOfEmptyList) {
 */
 TEST(DecrementIteratorTest, WhenDecrementLastConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.rcend();
+	TestDoublyLinkedList::ConstIterator cIt = list.crend();
 	EXPECT_DEATH(--cIt, "Assertion failed.*");
 }
 
@@ -1658,7 +1658,7 @@ TEST(DecrementIteratorTest, WhenDecrementFirstIterator) {
 */
 TEST(DecrementIteratorTest, WhenDecrementFirstConstIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.rcbegin();
+	TestDoublyLinkedList::ConstIterator cIt = list.crbegin();
 	EXPECT_DEATH(--cIt, "Assertion failed.*");
 }
 
@@ -1713,10 +1713,10 @@ TEST(DecrementIteratorTest, WhenDecrementConstIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.rcbegin();	//末尾から先頭へ移動するコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.crbegin();	//末尾から先頭へ移動するコンストイテレータ
 
 	int i = 2;
-	while (cItDecrement != list.rcend()) {
+	while (cItDecrement != list.crend()) {
 		bool isEqual = ((*cItDecrement) == scores[i]);
 		EXPECT_TRUE(isEqual);
 		cItDecrement--;
@@ -1755,8 +1755,8 @@ TEST(DecrementIteratorTest, WhenPrefixDecrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.rcbegin();
-	TestDoublyLinkedList::ConstIterator cItFirst = list.rcend();
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.crbegin();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.crend();
 
 	bool isEqualWhenDecrement = ((--cItDecrement) == cItFirst);
 	bool isEqualAfterDecrement = (cItDecrement == cItFirst);
@@ -1796,9 +1796,9 @@ TEST(DecrementIteratorTest, WhenPostfixDecrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.rcbegin();
-	TestDoublyLinkedList::ConstIterator cItLast = list.rcbegin();
-	TestDoublyLinkedList::ConstIterator cItFirst = list.rcend();
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.crbegin();
+	TestDoublyLinkedList::ConstIterator cItLast = list.crbegin();
+	TestDoublyLinkedList::ConstIterator cItFirst = list.crend();
 
 	bool isEqualWhenDecrement = ((cItDecrement--) == cItLast);
 	bool isEqualAfterDecrement = (cItDecrement == cItFirst);

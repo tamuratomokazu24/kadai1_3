@@ -208,7 +208,7 @@ public:
 	* @return ConstIterator	リストが空の場合はリスト逆順の先頭のダミーを指すコンストイテレータ\n
 	*						リストに要素がある場合はリスト逆順の先頭要素を指すコンストイテレータ\n
 	*/
-	ConstIterator rcbegin() const;
+	ConstIterator crbegin() const;
 
 	/**
 	* リストを逆順に見る際の末尾を指すコンストイテレータを返す
@@ -216,7 +216,7 @@ public:
 	* @return ConstIterator	リストが空の場合はリスト逆順の末尾のダミーを指すコンストイテレータ\n
 	*						リストに要素がある場合はリスト逆順の末尾要素を指すコンストイテレータ\n
 	*/
-	ConstIterator rcend() const;
+	ConstIterator crend() const;
 
 	/**
 	* リストの先頭を指すイテレータを返す
