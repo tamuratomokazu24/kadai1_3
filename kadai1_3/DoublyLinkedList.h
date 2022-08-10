@@ -178,7 +178,7 @@ public:
 	bool insert(ConstIterator cIterator, const T& value);
 
 	/**
-	* データの削除し，削除したデータの１つ前方のデータにコンストイテレータを戻す
+	* 指定したコンストイテレータが指すデータを削除する
 	*
 	* @param[in] cIterator 削除するデータを指すコンストイテレータ
 	* @return bool	true:正常にデータを削除することができた\n
