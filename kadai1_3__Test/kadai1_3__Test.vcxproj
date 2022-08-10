@@ -72,7 +72,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Configuration)\DoublyLinkedList.obj;$(SolutionDir)kadai1_3\$(Configuration)\ScoreData.obj;$(SolutionDir)kadai1_3\$(Configuration)\Node.obj;$(SolutionDir)kadai1_3\$(Configuration)\Iterator.obj;$(SolutionDir)kadai1_3\$(Configuration)\ConstIterator.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Configuration)\ScoreData.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -88,7 +88,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\DoublyLinkedList.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\ScoreData.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\Node.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\Iterator.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\ConstIterator.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\ScoreData.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,7 +105,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Configuration)\DoublyLinkedList.obj;$(SolutionDir)kadai1_3\$(Configuration)\ScoreData.obj;$(SolutionDir)kadai1_3\$(Configuration)\Node.obj;$(SolutionDir)kadai1_3\$(Configuration)\Iterator.obj;$(SolutionDir)kadai1_3\$(Configuration)\ConstIterator.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Configuration)\ScoreData.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,7 +122,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\DoublyLinkedList.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\ScoreData.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\Node.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\Iterator.obj;$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\ConstIterator.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)kadai1_3\$(Platform)\$(Configuration)\ScoreData.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

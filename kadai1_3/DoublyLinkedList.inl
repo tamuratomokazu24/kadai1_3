@@ -15,8 +15,9 @@ DoublyLinkedList<T>::Node::Node(Node* preNode, Node* nextNode, const T& value) {
 
 template<class T>
 typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator::operator--() {
-	assert(this->_ptr->preNode);					//先頭ダミーをデクリメントしようとした場合
-	assert(this->_ptr != this->_ptr->preNode);	//空のリストの末尾ダミーをデクリメントしようとした場合
+	assert(this->_ptr);						//リストへの参照がないイテレータをデクリメントしようとした場合	
+	assert(this->_ptr->preNode);			//先頭ダミーをデクリメントしようとした場合
+	assert(this->_referenceToList->size());	//参照しているリストが空の場合
 	this->_ptr = this->_ptr->preNode;
 	return *this;
 }
@@ -30,8 +31,9 @@ typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::ConstIterator::
 
 template<class T>
 typename DoublyLinkedList<T>::ConstIterator& DoublyLinkedList<T>::ConstIterator::operator++() {
-	assert(this->_ptr != this->_ptr->nextNode);	//空のリストの先頭ダミーをインクリメントしようとした場合
+	assert(this->_ptr);							//リストへの参照がないイテレータをインクリメントしようとした場合
 	assert(this->_ptr->nextNode);				//末尾ダミーをインクリメントしようとした場合
+	assert(this->_referenceToList->size());		//参照しているリストが空の場合
 	this->_ptr = this->_ptr->nextNode;
 	return *this;
 }
@@ -105,15 +107,15 @@ bool DoublyLinkedList<T>::insert(ConstIterator cIterator, const T& val) {
 	//**********	データの挿入に失敗	**********//
 
 	//他のリストのコンストイテレータかリストへの参照がないコンストイテレータが渡された場合
-	if (cIterator.getReferenceToList() != this) {
+	if (cIterator._referenceToList != this) {
 		return false;
 	}
 
 	//********************************************//
 
-	Node* newNode = new Node(cIterator.getPtr()->preNode, cIterator.getPtr(), val);
-	cIterator.getPtr()->preNode->nextNode = newNode;
-	cIterator.getPtr()->preNode = newNode;
+	Node* newNode = new Node(cIterator._ptr->preNode, cIterator._ptr, val);
+	cIterator._ptr->preNode->nextNode = newNode;
+	cIterator._ptr->preNode = newNode;
 
 	_size++;
 
@@ -126,19 +128,19 @@ bool DoublyLinkedList<T>::remove(ConstIterator cIterator) {
 	//**********	データの削除に失敗	**********//
 	//他のリストのコンストイテレータかリストへの参照がないコンストイテレータが渡された場合
 
-	if (cIterator.getReferenceToList() != this) {
+	if (cIterator._referenceToList != this) {
 		return false;
 	}
-	if (cIterator.getPtr() == this->_dummyFirstNode || cIterator.getPtr() == this->_dummyLastNode) {
+	if (cIterator._ptr == this->_dummyFirstNode || cIterator._ptr == this->_dummyLastNode) {
 		return false;
 	}
 
 	//*******************************************//
 
-	cIterator.getPtr()->preNode->nextNode = cIterator.getPtr()->nextNode;
-	cIterator.getPtr()->nextNode->preNode = cIterator.getPtr()->preNode;
+	cIterator._ptr->preNode->nextNode = cIterator._ptr->nextNode;
+	cIterator._ptr->nextNode->preNode = cIterator._ptr->preNode;
 
-	delete cIterator.getPtr();
+	delete cIterator._ptr;
 	--_size;
 
 	return true;
@@ -155,19 +157,6 @@ typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::cend() const {
 	ConstIterator ret(this,_dummyLastNode);
 	return ret;
 }
-
-template<class T>
-typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::crbegin() const {
-	ConstIterator ret(this, _dummyLastNode->preNode);
-	return ret;
-}
-
-template<class T>
-typename DoublyLinkedList<T>::ConstIterator DoublyLinkedList<T>::crend() const {
-	ConstIterator ret(this, _dummyFirstNode);
-	return ret;
-}
-
 template<class T>
 typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::begin() {
 	Iterator ret(this, _dummyFirstNode->nextNode);
@@ -177,17 +166,5 @@ typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::begin() {
 template<class T>
 typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::end() {
 	Iterator ret(this,_dummyLastNode);
-	return ret;
-}
-
-template<class T>
-typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::rbegin() {
-	Iterator ret(this, _dummyLastNode->preNode);
-	return ret;
-}
-
-template<class T>
-typename DoublyLinkedList<T>::Iterator DoublyLinkedList<T>::rend() {
-	Iterator ret(this, _dummyFirstNode);
 	return ret;
 }

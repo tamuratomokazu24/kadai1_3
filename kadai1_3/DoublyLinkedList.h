@@ -36,24 +36,13 @@ public:
 	class ConstIterator {
 	protected:
 
+		friend bool DoublyLinkedList<T>::insert(ConstIterator cIterator, const T& value);	//insert()でノードを追加する際，_ptrへのアクセスが必要なため
+		friend bool DoublyLinkedList<T>::remove(ConstIterator cIterator);					//remove()でノードを削除する際，_ptrへのアクセスが必要なため
+
 		const DoublyLinkedList<T>* _referenceToList;	/** リストへの参照 */
 		Node* _ptr;	/** イテレータが内部的に保持するNode* */
 
 	public:
-
-		/**
-		* リストへの参照を返す関数
-		*/
-		const DoublyLinkedList<T>* getReferenceToList() {
-			return _referenceToList;
-		}
-
-		/**
-		* ノードへの参照を返す関数
-		*/
-		Node* getPtr() {
-			return _ptr;
-		}
 
 		/**
 		* ConstIteratorを１つ前方に戻す(前置デクリメント)
@@ -189,66 +178,27 @@ public:
 	/**
 	* リストの先頭を指すコンストイテレータを返す
 	*
-	* @return ConstIterator	リストが空の場合は先頭のダミーを指すコンストイテレータ\n
+	* @return ConstIterator	リストが空の場合は末尾ダミーを指すコンストイテレータ\n
 	*						リストに要素がある場合は先頭要素を指すコンストイテレータ\n
 	*/
 	ConstIterator cbegin() const;
 
 	/**
-	* リストの末尾を指すコンストイテレータを返す
-	*
-	* @return ConstIterator	リストが空の場合は末尾のダミーを指すコンストイテレータ\n
-	*						リストに要素がある場合は末尾要素を指すコンストイテレータ\n
+	* リストの末尾ダミーを指すコンストイテレータを返す
 	*/
 	ConstIterator cend() const;
-
-	/**
-	* リストを逆順に見る際の先頭を指すコンストイテレータを返す
-	*
-	* @return ConstIterator	リストが空の場合はリスト逆順の先頭のダミーを指すコンストイテレータ\n
-	*						リストに要素がある場合はリスト逆順の先頭要素を指すコンストイテレータ\n
-	*/
-	ConstIterator crbegin() const;
-
-	/**
-	* リストを逆順に見る際の末尾を指すコンストイテレータを返す
-	*
-	* @return ConstIterator	リストが空の場合はリスト逆順の末尾のダミーを指すコンストイテレータ\n
-	*						リストに要素がある場合はリスト逆順の末尾要素を指すコンストイテレータ\n
-	*/
-	ConstIterator crend() const;
-
 	/**
 	* リストの先頭を指すイテレータを返す
 	*
-	* @return Iterator	リストが空の場合は先頭のダミーを指すイテレータ\n
+	* @return Iterator	リストが空の場合は末尾ダミーを指すイテレータ\n
 	*					リストに要素がある場合は先頭要素を指すイテレータ\n
 	*/
 	Iterator begin();
 
 	/**
-	* リストの末尾を指すイテレータを返す
-	*
-	* @return Iterator	リストが空の場合は末尾のダミーを指すイテレータ\n
-	*					リストに要素がある場合は末尾要素を指すイテレータ\n
+	* リストの末尾ダミーを指すイテレータを返す
 	*/
 	Iterator end();
-
-	/**
-	* リストを逆順に見る際の先頭を指すイテレータを返す
-	*
-	* @return Iterator	リストが空の場合はリスト逆順の先頭のダミーを指すイテレータ\n
-	*					リストに要素がある場合はリスト逆順の先頭要素を指すイテレータ\n
-	*/
-	Iterator rbegin();
-
-	/**
-	* リストを逆順に見る際の末尾を指すイテレータを返す
-	*
-	* @return Iterator	リストが空の場合はリスト逆順の末尾のダミーを指すイテレータ\n
-	*					リストに要素がある場合はリスト逆順の末尾要素を指すイテレータ\n
-	*/
-	Iterator rend();
 
 };
 

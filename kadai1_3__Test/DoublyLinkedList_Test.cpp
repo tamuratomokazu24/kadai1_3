@@ -1270,10 +1270,12 @@ TEST(GetLastConstIteratorTest, WhenGetLastConstIteratorFromListRemovedLastElemen
 *				リストの参照がない状態でイテレータの要素を参照した際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(GetElementOfIteratorTest, WhenIteratorHaveNotReferenceToList) {
 	TestDoublyLinkedList::Iterator it;
 	EXPECT_DEATH((*it), ".*");
 }
+#endif
 
 /**
 *	@brief		リストの参照がない状態で要素を取得した際のテスト
@@ -1282,10 +1284,12 @@ TEST(GetElementOfIteratorTest, WhenIteratorHaveNotReferenceToList) {
 *				リストの参照がない状態でコンストイテレータの要素を参照した際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(GetElementOfIteratorTest, WhenConstIteratorHaveNotReferenceToList) {
 	TestDoublyLinkedList::ConstIterator cIt;
 	EXPECT_DEATH((*cIt), ".*");
 }
+#endif
 
 /**
 *	@brief		イテレータから取得した要素に対して，値の代入をした際のテスト
@@ -1314,11 +1318,13 @@ TEST(GetElementOfIteratorTest, WhenAssignToElementOfIterator) {
 *				空のリストの先頭イテレータの要素を取得した際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(GetElementOfIteratorTest, WhenGetElementOfFirstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::Iterator itFirst = list.begin();
 	EXPECT_DEATH((*itFirst), "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		空のリストの先頭コンストイテレータの要素を取得した際のテスト
@@ -1327,11 +1333,13 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfFirstIteratorOfEmptyList) {
 *				空のリストの先頭コンストイテレータの要素を取得した際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(GetElementOfIteratorTest, WhenGetElementOfFirstConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::ConstIterator cItFirst = list.cbegin();
 	EXPECT_DEATH((*cItFirst), "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		末尾イテレータの要素を取得した際のテスト
@@ -1340,11 +1348,13 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfFirstConstIteratorOfEmptyList) {
 *				末尾イテレータの要素を取得した際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(GetElementOfIteratorTest, WhenGetElementOfLastIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::Iterator itLast = list.end();
 	EXPECT_DEATH((*itLast), "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		末尾コンストイテレータの要素を取得した際のテスト
@@ -1353,11 +1363,13 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfLastIteratorOfEmptyList) {
 *				末尾コンストイテレータの要素を取得した際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(GetElementOfIteratorTest, WhenGetElementOfLastConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
 	EXPECT_DEATH((*cItLast), "Assertion failed.*");
 }
+#endif
 
 
 //=================================== イテレータをリスト末尾に向かって１つ進める ===================================
@@ -1369,10 +1381,12 @@ TEST(GetElementOfIteratorTest, WhenGetElementOfLastConstIteratorOfEmptyList) {
 *				リストの参照がない状態でイテレータをリスト末尾に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(IncrementIteratorTest, WhenIncrementIteratorHaveNotReferenceToList) {
 	TestDoublyLinkedList::Iterator it;
 	EXPECT_DEATH(++it, ".*");
 }
+#endif
 
 /**
 *	@brief		リストの参照がない状態でコンストイテレータをリスト末尾に向かって１つ進める際のテスト
@@ -1381,10 +1395,12 @@ TEST(IncrementIteratorTest, WhenIncrementIteratorHaveNotReferenceToList) {
 *				リストの参照がない状態でコンストイテレータをリスト末尾に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(IncrementIteratorTest, WhenIncrementConstIteratorHaveNotReferenceToList) {
 	TestDoublyLinkedList::ConstIterator cIt;
 	EXPECT_DEATH(++cIt, ".*");
 }
+#endif
 
 /**
 *	@brief		リストが空の状態で先頭イテレータをリスト末尾に向かって１つ進める際のテスト
@@ -1393,11 +1409,13 @@ TEST(IncrementIteratorTest, WhenIncrementConstIteratorHaveNotReferenceToList) {
 *				リストが空の状態で先頭イテレータをリスト末尾に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(IncrementIteratorTest, WhenIncrementFirstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::Iterator it = list.begin();
 	EXPECT_DEATH(++it, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		リストが空の状態で先頭コンストイテレータをリスト末尾に向かって１つ進める際のテスト
@@ -1406,11 +1424,13 @@ TEST(IncrementIteratorTest, WhenIncrementFirstIteratorOfEmptyList) {
 *				リストが空の状態で先頭コンストイテレータをリスト末尾に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(IncrementIteratorTest, WhenIncrementFirstConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::ConstIterator cIt = list.cbegin();
 	EXPECT_DEATH(++cIt, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		末尾イテレータを後方へ1つ進める際のテスト
@@ -1419,11 +1439,13 @@ TEST(IncrementIteratorTest, WhenIncrementFirstConstIteratorOfEmptyList) {
 *				末尾イテレータを後方へ１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(IncrementIteratorTest, WhenIncrementLastIterator) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::Iterator it = list.end();
 	EXPECT_DEATH(++it, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		末尾コンストイテレータを後方へ1つ進める際のテスト
@@ -1432,11 +1454,13 @@ TEST(IncrementIteratorTest, WhenIncrementLastIterator) {
 *				末尾コンストイテレータを後方へ１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(IncrementIteratorTest, WhenIncrementLastConstIterator) {
 	TestDoublyLinkedList list;
 	TestDoublyLinkedList::ConstIterator cIt = list.cend();
 	EXPECT_DEATH(++cIt, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		2つ以上の要素があるリストに対し，イテレータを先頭から末尾まで移動する際のテスト
@@ -1593,10 +1617,12 @@ TEST(IncrementIteratorTest, WhenPostfixIncrementConstIterator) {
 *				リストの参照がない状態でイテレータをリスト先頭に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(DecrementIteratorTest, WhenDecrementIteratorHaveNotReferenceToList) {
 	TestDoublyLinkedList::Iterator it;
 	EXPECT_DEATH(--it, ".*");
 }
+#endif
 
 /**
 *	@brief		リストの参照がない状態でコンストイテレータをリスト先頭に向かって１つ進める際のテスト
@@ -1605,10 +1631,12 @@ TEST(DecrementIteratorTest, WhenDecrementIteratorHaveNotReferenceToList) {
 *				リストの参照がない状態でコンストイテレータをリスト先頭に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(DecrementIteratorTest, WhenDecrementConstIteratorHaveNotReferenceToList) {
 	TestDoublyLinkedList::ConstIterator cIt;
 	EXPECT_DEATH(--cIt, ".*");
 }
+#endif
 
 /**
 *	@brief		リストが空の状態で末尾イテレータをリスト先頭に向かって１つ進める際のテスト
@@ -1617,11 +1645,13 @@ TEST(DecrementIteratorTest, WhenDecrementConstIteratorHaveNotReferenceToList) {
 *				リストが空の状態で末尾イテレータをリスト先頭に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(DecrementIteratorTest, WhenDecrementLastIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.rend();
+	TestDoublyLinkedList::Iterator it = list.end();
 	EXPECT_DEATH(--it, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		リストが空の状態で末尾コンストイテレータをリスト先頭に向かって１つ進める際のテスト
@@ -1630,11 +1660,13 @@ TEST(DecrementIteratorTest, WhenDecrementLastIteratorOfEmptyList) {
 *				リストが空の状態で末尾コンストイテレータをリスト先頭に向かって１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(DecrementIteratorTest, WhenDecrementLastConstIteratorOfEmptyList) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.crend();
+	TestDoublyLinkedList::ConstIterator cIt = list.cend();
 	EXPECT_DEATH(--cIt, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		先頭イテレータを前方へ1つ進める際のテスト
@@ -1643,11 +1675,13 @@ TEST(DecrementIteratorTest, WhenDecrementLastConstIteratorOfEmptyList) {
 *				先頭イテレータを前方へ１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(DecrementIteratorTest, WhenDecrementFirstIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::Iterator it = list.rbegin();
+	TestDoublyLinkedList::Iterator it = list.begin();
 	EXPECT_DEATH(--it, "Assertion failed.*");
 }
+#endif
 
 /**
 *	@brief		先頭コンストイテレータを前方へ1つ進める際のテスト
@@ -1656,11 +1690,13 @@ TEST(DecrementIteratorTest, WhenDecrementFirstIterator) {
 *				先頭コンストイテレータを前方へ１つ進める際の挙動を確認しています.\n
 *				Assertが発生すれば成功です．\n
 */
+#ifdef _DEBUG
 TEST(DecrementIteratorTest, WhenDecrementFirstConstIterator) {
 	TestDoublyLinkedList list;
-	TestDoublyLinkedList::ConstIterator cIt = list.crbegin();
-	EXPECT_DEATH(--cIt, "Assertion failed.*");
+	TestDoublyLinkedList::ConstIterator cIt = list.cbegin();
+	EXPECT_DEATH(--cIt, ".*");
 }
+#endif
 
 /**
 *	@brief		2つ以上の要素があるリストに対し，イテレータ末尾から先頭まで移動する際のテスト
@@ -1682,13 +1718,13 @@ TEST(DecrementIteratorTest, WhenDecrementIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::Iterator itDecrement = list.rbegin();	//末尾から先頭へ移動するイテレータ
+	TestDoublyLinkedList::Iterator itDecrement = list.end();	//末尾から先頭へ移動するイテレータ
 
 	int i = 2;
-	while (itDecrement != list.rend()) {
+	while (i >= 0) {
+		itDecrement--;
 		bool isEqual = ((*itDecrement) == scores[i]);
 		EXPECT_TRUE(isEqual);
-		itDecrement--;
 		i--;
 	}
 }
@@ -1713,13 +1749,13 @@ TEST(DecrementIteratorTest, WhenDecrementConstIteratorOnListHaveElements) {
 		list.insert(it, scores[i]);
 	}
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.crbegin();	//末尾から先頭へ移動するコンストイテレータ
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.cend();	//末尾から先頭へ移動するコンストイテレータ
 
 	int i = 2;
-	while (cItDecrement != list.crend()) {
+	while (i >= 0) {
+		cItDecrement--;
 		bool isEqual = ((*cItDecrement) == scores[i]);
 		EXPECT_TRUE(isEqual);
-		cItDecrement--;
 		i--;
 	}
 }
@@ -1729,17 +1765,17 @@ TEST(DecrementIteratorTest, WhenDecrementConstIteratorOnListHaveElements) {
 *	@details	ID:Iterator-15-1\n
 *				イテレータをリスト先頭に向かって１つ進める機能のテストです.\n
 *				イテレータに対して，前置デクリメントを行った際の挙動を確認しています.\n
-*				デクリメント呼び出し時とデクリメント実行後での両方で，先頭ダミーを指していれば成功です．\n
+*				デクリメント呼び出し時とデクリメント実行後での両方で，先頭要素を指していれば成功です．\n
 */
 TEST(DecrementIteratorTest, WhenPrefixDecrementIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itDecrement = list.rbegin();
-	TestDoublyLinkedList::Iterator itFirst = list.rend();
+	TestDoublyLinkedList::Iterator itDecrement = list.end();
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();
 
-	bool isEqualWhenDecrement = ((--itDecrement) == itFirst);
-	bool isEqualAfterDecrement = (itDecrement == itFirst);
+	bool isEqualWhenDecrement = ((--itDecrement) == itFirstElement);
+	bool isEqualAfterDecrement = (itDecrement == itFirstElement);
 
 	EXPECT_TRUE(isEqualAfterDecrement == true && isEqualAfterDecrement == true);
 }
@@ -1749,17 +1785,17 @@ TEST(DecrementIteratorTest, WhenPrefixDecrementIterator) {
 *	@details	ID:Iterator-15-2\n
 *				イテレータをリスト先頭に向かって１つ進める機能のテストです.\n
 *				コンストイテレータに対して，前置デクリメントを行った際の挙動を確認しています.\n
-*				デクリメント呼び出し時とデクリメント実行後の両方で，先頭ダミーを指していれば成功です．\n
+*				デクリメント呼び出し時とデクリメント実行後の両方で，先頭要素を指していれば成功です．\n
 */
 TEST(DecrementIteratorTest, WhenPrefixDecrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.crbegin();
-	TestDoublyLinkedList::ConstIterator cItFirst = list.crend();
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.cend();
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();
 
-	bool isEqualWhenDecrement = ((--cItDecrement) == cItFirst);
-	bool isEqualAfterDecrement = (cItDecrement == cItFirst);
+	bool isEqualWhenDecrement = ((--cItDecrement) == cItFirstElement);
+	bool isEqualAfterDecrement = (cItDecrement == cItFirstElement);
 
 	EXPECT_TRUE(isEqualAfterDecrement == true && isEqualAfterDecrement == true);
 }
@@ -1769,18 +1805,18 @@ TEST(DecrementIteratorTest, WhenPrefixDecrementConstIterator) {
 *	@details	ID:Iterator-16-1\n
 *				イテレータをリスト先頭に向かって１つ進める機能のテストです.\n
 *				イテレータに対して，後置デクリメントを行った際の挙動を確認しています.\n
-*				デクリメント呼び出し時は末尾要素を，デクリメント実行後は先頭ダミーを指していれば成功です．\n
+*				デクリメント呼び出し時は末尾ダミーを，デクリメント実行後は先頭要素を指していれば成功です．\n
 */
 TEST(DecrementIteratorTest, WhenPostfixDecrementIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::Iterator itDecrement = list.rbegin();
-	TestDoublyLinkedList::Iterator itLast = list.rbegin();
-	TestDoublyLinkedList::Iterator itFirst = list.rend();
+	TestDoublyLinkedList::Iterator itDecrement = list.end();
+	TestDoublyLinkedList::Iterator itLast = list.end();
+	TestDoublyLinkedList::Iterator itFirstElement = list.begin();
 
 	bool isEqualWhenDecrement = ((itDecrement--) == itLast);
-	bool isEqualAfterDecrement = (itDecrement == itFirst);
+	bool isEqualAfterDecrement = (itDecrement == itFirstElement);
 
 	EXPECT_TRUE(isEqualWhenDecrement == true && isEqualAfterDecrement == true);
 }
@@ -1790,18 +1826,18 @@ TEST(DecrementIteratorTest, WhenPostfixDecrementIterator) {
 *	@details	ID:Iterator-16-2\n
 *				イテレータをリスト先頭に向かって１つ進める機能のテストです.\n
 *				コンストイテレータに対して，後置デクリメントを行った際の挙動を確認しています.\n
-*				デクリメント呼び出し時は末尾要素を，デクリメント実行後は先頭ダミーを指していれば成功です．\n
+*				デクリメント呼び出し時は末尾ダミーを，デクリメント実行後は先頭要素を指していれば成功です．\n
 */
 TEST(DecrementIteratorTest, WhenPostfixDecrementConstIterator) {
 	TestDoublyLinkedList list;
 	createListHavingElements(list, 1);
 
-	TestDoublyLinkedList::ConstIterator cItDecrement = list.crbegin();
-	TestDoublyLinkedList::ConstIterator cItLast = list.crbegin();
-	TestDoublyLinkedList::ConstIterator cItFirst = list.crend();
+	TestDoublyLinkedList::ConstIterator cItDecrement = list.cend();
+	TestDoublyLinkedList::ConstIterator cItLast = list.cend();
+	TestDoublyLinkedList::ConstIterator cItFirstElement = list.cbegin();
 
 	bool isEqualWhenDecrement = ((cItDecrement--) == cItLast);
-	bool isEqualAfterDecrement = (cItDecrement == cItFirst);
+	bool isEqualAfterDecrement = (cItDecrement == cItFirstElement);
 
 	EXPECT_TRUE(isEqualWhenDecrement == true && isEqualAfterDecrement == true);
 }
