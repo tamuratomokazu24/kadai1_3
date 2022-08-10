@@ -5,6 +5,10 @@
 
 #include <string>
 
+/**
+* @struct	ScoreData
+* @brief	プレイヤーのスコアと名前を格納する構造体
+*/
 struct ScoreData {
 
 	std::string score;
@@ -26,14 +30,16 @@ struct ScoreData {
 	/**
 	* ２つのScoreDataが持つ(score,name)が等しいか判定
 	*
-	* @return bool (this->score == rhs.score && this->name == rhs.name)
+	* @return bool	true:lhsとrhsのスコアと名前がそれぞれ等しい\n
+	*				false:lhsとrhsのスコアと名前のいずれかが異なる\n
 	*/
 	bool operator==(const ScoreData& rhs) const;
 
 	/**
 	* ２つのScoreDataが持つ(score,name)が異なるか判定
 	*
-	* @return bool (this->score != rhs.score || this->name != rhs.name)
+	* @return bool	true:lhsとrhsのスコアと名前のいずれかが異なる\n
+	*				false:lhsとrhsのスコアと名前がそれぞれ等しい\n
 	*/
 	bool operator!=(const ScoreData& rhs) const;
 };
